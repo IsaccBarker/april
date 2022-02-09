@@ -15,9 +15,15 @@ import org.gradle.internal.os.OperatingSystem
 
 project.ext.lwjglVersion = "3.3.0"
 
+def jvmArgs = []
+
 switch (OperatingSystem.current()) {
+	case OperatingSystem.LINUX:
+		project.ext.lwjglNatives = "natives-linux"
+		break
 	case OperatingSystem.MAC_OS:
-		project.ext.lwjglNatives = System.getProperty("os.arch").startsWith("aarch64") ? "natives-macos-arm64" : "natives-macos"
+		project.ext.lwjglNatives = "natives-macos-arm64"
+        jvmArgs += "-XstartOnFirstThread"
 		break
 }
 
@@ -54,7 +60,7 @@ application {
     // Define the main class for the application.
     mainClass = 'org.april.April'
 
-    applicationDefaultJvmArgs = ["-XstartOnFirstThread"]
+    applicationDefaultJvmArgs = jvmArgs
 }
 
 startScripts {

@@ -16,6 +16,10 @@ Building to a JAR file will be supported near the end of the project period.
 
 This is not in an acceptible academic format; this will be created near the end of the project period. Currently, this is an area to keep track of my sources.
 
+[Sebastian Lague: Coding Adventure: Ray Marching](https://www.youtube.com/watch?v=Cp5WWtMoeKg)
+
+[Code Parade: How to Make 3D Fractals](https://www.youtube.com/watch?v=svLzmFuSBhk)
+
 [Stanford (Hart): Sphere Tracing: A Geometric Method for the Antialiased Ray Tracing of Implicit Surface](https://graphics.stanford.edu/courses/cs348b-20-spring-content/uploads/hart.pdf)
 
 [Jamie Wong: Ray Marching and Signed Distance Functions](http://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/)

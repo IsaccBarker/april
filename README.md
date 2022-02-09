@@ -1,10 +1,8 @@
 <p align="center">
     <img style="width: 50%; height: 50%" src="https://raw.githubusercontent.com/IsaccBarker/april/main/assets/cropped.png">
 
-    <p>Ray marching in LWJGL.</p>
+    Ray marching in LWJGL. Welcome to the barebones readme :/
 </p>
-
-Sorry for the barebones readme, this is a school project so I feel it has to be "slim". See my other projects for good readmes :)
 
 ## Running
 You can run `april` using the typical gradle run pattern:

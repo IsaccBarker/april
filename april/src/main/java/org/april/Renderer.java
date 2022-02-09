@@ -6,6 +6,7 @@ import org.lwjgl.system.*;
 
 import java.nio.*;
 import java.io.FileNotFoundException;
+import java.lang.Math;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -55,7 +56,10 @@ public class Renderer {
     }
 
     public void renderToBuffer() { 
+        float timeValue = (float) Math.abs(Math.sin(glfwGetTime()));
+
         program.bind();
+        program.setUniform("time", timeValue);
 
         GL41.glBindVertexArray(vao);
         GL41.glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

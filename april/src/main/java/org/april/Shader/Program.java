@@ -45,6 +45,34 @@ public class Program {
         }
     }
 
+    // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml
+    public void setUniform(String uniform, float a) {
+        int id = getUniformID(uniform);
+
+        GL41.glUniform1f(id, a);
+    }
+
+    // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml
+    public void setUniform(String uniform, float a, float b) {
+        int id = getUniformID(uniform);
+
+        GL41.glUniform2f(id, a, b);
+    }
+
+    // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml
+    public void setUniform(String uniform, float a, float b, float c) {
+        int id = getUniformID(uniform);
+
+        GL41.glUniform3f(id, a, b, c);
+    }
+
+    // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml
+    public void setUniform(String uniform, float a, float b, float c, float d) {
+        int id = getUniformID(uniform);
+
+        GL41.glUniform4f(id, a, b, c, d);
+    }
+
     public void bind() {
         GL41.glUseProgram(program);
     }
@@ -57,6 +85,10 @@ public class Program {
         unbind();
 
         GL41.glDeleteProgram(program);
+    }
+
+    private int getUniformID(String uniform) {
+        return GL41.glGetUniformLocation(getProgram(), uniform);
     }
 
     public int getProgram() {

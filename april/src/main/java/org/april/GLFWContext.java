@@ -76,7 +76,7 @@ public class GLFWContext {
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
-		// Force OpenGL 3
+		// Force OpenGL 4
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -84,7 +84,7 @@ public class GLFWContext {
 	}
 
 	private void initWindow() {
-		window = glfwCreateWindow(300, 300, "April Ray Marching", NULL, NULL);
+		window = glfwCreateWindow(1000, 1000, "April Ray Marching", NULL, NULL);
 		if (window == NULL) {
 			throw new RuntimeException("Failed to create the GLFW window");
         }

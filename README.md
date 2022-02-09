@@ -1,5 +1,8 @@
-# April
-Ray marching in LWJGL.
+<p align="center">
+    <img width="460" height="300" src="https://raw.githubusercontent.com/IsaccBarker/april/main/assets/cropped.png">
+
+    <p>Ray marching in LWJGL.</p>
+</p>
 
 Sorry for the barebones readme, this is a school project so I feel it has to be "slim". See my other projects for good readmes :)
 

@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://raw.githubusercontent.com/IsaccBarker/april/main/assets/cropped.png">
+    <img style="width: 50%; height: 50%" src="https://raw.githubusercontent.com/IsaccBarker/april/main/assets/cropped.png">
 
     <p>Ray marching in LWJGL.</p>
 </p>

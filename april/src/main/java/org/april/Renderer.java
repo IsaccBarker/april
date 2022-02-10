@@ -61,14 +61,10 @@ public class Renderer {
 
 		program.bind();
 		program.setUniform("time", timeValue);
+		program.setUniform("resolution", resolution.width(), resolution.height());
 
-		try (MemoryStack stack = stackPush()) {
-			IntBuffer width = stack.mallocInt(1);
-			IntBuffer height = stack.mallocInt(1);
+		System.out.println(resolution.width() + ", " + resolution.height());
 
-			program.setUniform("resolution", width.get(0), height.get(0));
-		}
-       
         GL41.glBindVertexArray(vao);
         GL41.glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         GL41.glBindVertexArray(0);

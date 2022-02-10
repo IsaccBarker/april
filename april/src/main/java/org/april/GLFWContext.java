@@ -15,6 +15,8 @@ import static org.lwjgl.system.MemoryUtil.*;
 public class GLFWContext {
 	private long window;
 	private GLFWVidMode monitorResolution;
+	private int width;
+	private int height;
 
 	public long getWindow() {
 		return window;
@@ -29,6 +31,7 @@ public class GLFWContext {
 		setMonitorResolution();
 		setInputCallback();
 		setFramebufferResizeCallback();
+		getWindowDimensions();
 		pushFrame();
 		setWindowVisibility(true);
 		createCapabilities();
@@ -54,6 +57,14 @@ public class GLFWContext {
 
 	public GLFWVidMode getMonitorResolution() {
 		return monitorResolution;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
 	}
 
 	private void setMonitorResolution() {
@@ -99,32 +110,41 @@ public class GLFWContext {
 
 	private void setFramebufferResizeCallback() {
 		glfwSetFramebufferSizeCallback(window, (window, width, height) -> {
+			this.width = width;
+			this.height = height;
+
 			glViewport(0, 0, width, height);
 		});
 	}
 
 	private void pushFrame() {
 		try (MemoryStack stack = stackPush()) {
-			IntBuffer pWidth = stack.mallocInt(1);
-			IntBuffer pHeight = stack.mallocInt(1);
-
-			// Get the window size passed to glfwCreateWindow
-			glfwGetWindowSize(window, pWidth, pHeight);
-
 			// Get the resolution of the primary monitor
-			GLFWVidMode monitorResolution = glfwGetVideoMode(glfwGetPrimaryMonitor());
+			monitorResolution = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
 			// Center the window
 			glfwSetWindowPos(
 				window,
-				(monitorResolution.width() - pWidth.get(0)) / 2,
-				(monitorResolution.height() - pHeight.get(0)) / 2
+				(monitorResolution.width() - width) / 2,
+				(monitorResolution.height() - height) / 2
 			);
 		}
 	}
 
 	private void setGLFWCurrentContext() {
 		glfwMakeContextCurrent(window);
+	}
+
+	private void getWindowDimensions() {
+		try (MemoryStack stack = stackPush()) {
+			IntBuffer width = stack.mallocInt(1);
+			IntBuffer height = stack.mallocInt(1);
+
+			glfwGetWindowSize(window, width, height);
+
+			this.width = width.get(0);
+			this.height = height.get(0);
+		}
 	}
 
 	private void setWindowVisibility(boolean visible) {

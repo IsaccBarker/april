@@ -57,13 +57,12 @@ public class Renderer {
 
     public void renderToBuffer() { 
         float timeValue = (float) Math.abs(Math.sin(glfwGetTime()));
-        GLFWVidMode resolution = glfwContext.getMonitorResolution();
 
 		program.bind();
 		program.setUniform("time", timeValue);
-		program.setUniform("resolution", resolution.width(), resolution.height());
+		program.setUniform("resolution", glfwContext.getWidth(), glfwContext.getHeight());
 
-		System.out.println(resolution.width() + ", " + resolution.height());
+		System.out.println(glfwContext.getWidth() + ", " + glfwContext.getHeight());
 
         GL41.glBindVertexArray(vao);
         GL41.glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

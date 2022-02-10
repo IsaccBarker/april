@@ -59,10 +59,16 @@ public class Renderer {
         float timeValue = (float) Math.abs(Math.sin(glfwGetTime()));
         GLFWVidMode resolution = glfwContext.getMonitorResolution();
 
-        program.bind();
-        program.setUniform("time", timeValue);
-        program.setUniform("resolution", resolution.getWidth(), resolution.getHeight());
+		program.bind();
+		program.setUniform("time", timeValue);
 
+		try (MemoryStack stack = stackPush()) {
+			IntBuffer width = stack.mallocInt(1);
+			IntBuffer height = stack.mallocInt(1);
+
+			program.setUniform("resolution", width.get(0), height.get(0));
+		}
+       
         GL41.glBindVertexArray(vao);
         GL41.glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         GL41.glBindVertexArray(0);

@@ -9,6 +9,6 @@ uniform vec2 resolution;
 
 void main() {
 	// fragColor = vec4(sin(time), time*time, sin(time)/cos(time), 1);
-	fragColor = vec4(resolution/2000, 0.0, 1.0);
+	fragColor = vec4(resolution.x/2000, vertexCoord.y, sin(time)/cos(time), 1.0);
 }
 

@@ -32,6 +32,8 @@ This is not in an acceptible academic format; this will be created near the end 
 
 [Wikipedia: Euclidean Norm](https://en.wikipedia.org/wiki/Norm)
 
+[GLFW BOILERPLATE: source transision, remove](https://github.com/electricsquare/raymarching-workshop)
+
 [Acta Cybernetica (Bálint, Valasek, Gergó): Operations on Signed Distance Functions](https://cyber.bibl.u-szeged.hu/index.php/actcybern/article/view/4004)
 
 [DTU (Tomczak): GPU Ray Marching of Distance Fields](http://www2.imm.dtu.dk/pubdb/edoc/imm6392.pdf)

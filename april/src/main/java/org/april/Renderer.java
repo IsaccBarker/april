@@ -5,6 +5,9 @@ import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
 import java.nio.*;
+import java.awt.*;
+import java.util.*;
+import java.awt.image.*;
 import java.io.FileNotFoundException;
 import java.lang.Math;
 
@@ -62,9 +65,15 @@ public class Renderer {
 		program.setUniform("time", timeValue);
 		program.setUniform("resolution", glfwContext.getWidth(), glfwContext.getHeight());
 
+		System.out.println(glfwContext.getWidth() + ", " + glfwContext.getHeight());
+
         GL41.glBindVertexArray(vao);
         GL41.glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         GL41.glBindVertexArray(0);
+    }
+
+	public void clearBuffer() {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
     private IntBuffer createEBO(MemoryStack stack) {
@@ -137,8 +146,5 @@ public class Renderer {
             System.exit(1);
         }
     }
-
-    public void clearBuffer() {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    }
 }
+

@@ -34,13 +34,12 @@ public class GLFWContext {
 		setGLFWHints();
 		initWindow();
 		setGLFWCurrentContext();
+		setFramebufferResizeCallback();
 		setMonitorResolution();
 		setInputCallback();
-		setFramebufferResizeCallback();
 		pushFrame();
 		setWindowVisibility(true);
 		createCapabilities();
-		getWindowDimensions();
     }
 
     public void destroy() {
@@ -105,8 +104,11 @@ public class GLFWContext {
 		if (window == NULL) {
 			throw new RuntimeException("Failed to create the GLFW window");
         }
-	}
 
+		this.width = 1000;
+		this.height = 1000;
+	}
+	
 	private void setInputCallback() {
 		glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
 			if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
@@ -139,18 +141,6 @@ public class GLFWContext {
 
 	private void setGLFWCurrentContext() {
 		glfwMakeContextCurrent(window);
-	}
-
-	private void getWindowDimensions() {
-		try (MemoryStack stack = stackPush()) {
-			IntBuffer width = stack.mallocInt(1);
-			IntBuffer height = stack.mallocInt(1);
-
-			glfwGetWindowSize(window, width, height);
-
-			this.width = width.get(0);
-			this.height = height.get(0);
-		}
 	}
 
 	private void setWindowVisibility(boolean visible) {

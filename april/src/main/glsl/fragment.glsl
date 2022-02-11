@@ -1,10 +1,10 @@
-%%%
-
 out vec4 fragColor;
 // in vec4 vertexCoord;
 
 uniform float time;
 uniform vec2 resolution;
+
+%%%
 
 /** Entry. */
 void main() {

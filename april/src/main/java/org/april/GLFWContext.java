@@ -12,6 +12,12 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+/** A wrapper around GLFW related objects.
+ * Most of this code is boilerplate taken and modified from here.
+ * Note that the following links are for C++, not Java, so I figured
+ * it was fair to use:
+ *     https://learnopengl.com/Getting-started/Creating-a-window
+ *     https://learnopengl.com/Getting-started/Hello-Window */
 public class GLFWContext {
 	private long window;
 	private GLFWVidMode monitorResolution;
@@ -31,10 +37,10 @@ public class GLFWContext {
 		setMonitorResolution();
 		setInputCallback();
 		setFramebufferResizeCallback();
-		getWindowDimensions();
 		pushFrame();
 		setWindowVisibility(true);
 		createCapabilities();
+		getWindowDimensions();
     }
 
     public void destroy() {
@@ -150,9 +156,11 @@ public class GLFWContext {
 	private void setWindowVisibility(boolean visible) {
 		if (visible) {
 			glfwShowWindow(window);
-		} else {
-			glfwHideWindow(window);
+
+			return;
 		}
+
+		glfwHideWindow(window);
 	}
 
 	private void createCapabilities() {

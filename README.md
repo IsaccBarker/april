@@ -40,3 +40,7 @@ This is not in an acceptible academic format; this will be created near the end 
 
 [CVPR (Jiang, Ji, Han, Zwicker): Differentiable Rendering of Signed Distance Fields](https://openaccess.thecvf.com/content_CVPR_2020/html/Jiang_SDFDiff_Differentiable_Rendering_of_Signed_Distance_Fields_for_3D_Shape_CVPR_2020_paper.html)
 
+[Inigo Quilez: Signed Distance Functions](https://iquilezles.org/www/articles/distfunctions/distfunctions.htm)
+> Please note that most of the signed distance functions present in this project are copied verbatim from here, because
+> I do not entirely understand the math behind non-primitive SDFs.
+

@@ -62,8 +62,6 @@ public class Renderer {
 		program.setUniform("time", timeValue);
 		program.setUniform("resolution", glfwContext.getWidth(), glfwContext.getHeight());
 
-		System.out.println(glfwContext.getWidth() + ", " + glfwContext.getHeight());
-
         GL41.glBindVertexArray(vao);
         GL41.glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         GL41.glBindVertexArray(0);
@@ -114,10 +112,15 @@ public class Renderer {
         program = new Program();
 
         try {
-            vertex = new Shader(ShaderType.VERTEX, "./src/main/glsl/vertex.glsl");
+            vertex = new Shader(ShaderType.VERTEX);
+			vertex.attachSource("./src/main/glsl/vertex.glsl");
             vertex.compile();
 
-            fragment = new Shader(ShaderType.FRAGMENT, "./src/main/glsl/fragment.glsl");
+            fragment = new Shader(ShaderType.FRAGMENT);
+			fragment.attachSource("./src/main/glsl/fragment.glsl");
+			fragment.attachSource("./src/main/glsl/util.glsl");
+			fragment.attachSource("./src/main/glsl/sdfs.glsl");
+			fragment.attachSource("./src/main/glsl/camera.glsl");
             fragment.compile();
         } catch (Exception e) {
             System.err.println("Failed to perform shader steps prior to program: " + e.getMessage());

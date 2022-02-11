@@ -1,9 +1,16 @@
+float pulse();
 vec2 screenSpaceToWorldSpace(vec2 screen);
 vec2 normalizeScreenCoords(vec2 screenCoord); // , vec3 cameraPos);
 float smoothMin(float a, float b, float k);
 vec3 calcNormal(vec3 pos);
 
 %%%
+
+/** Pulses a value based on the time from 0 to 1.
+ * https://stackoverflow.com/questions/3018550/how-to-create-pulsating-value-from-0-1-0-1-0-etc-for-a-given-duration */
+float pulse() {
+    return 0.5*(1+sin(2 * 3.14159265359 * 1 * time));
+}
 
 /** Translates 2D screen space coordinates to world space coordinates. */
 vec2 normalizeScreenCoords(vec2 screenCoord) { // , vec3 cameraPos) {

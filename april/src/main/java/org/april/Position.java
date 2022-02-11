@@ -17,15 +17,15 @@ public class Position {
 		return z;
 	}
 
-	public void addX(int x) {
+	public void addX(double x) {
 		this.x += x;
 	}
 
-	public void addY(int y) {
+	public void addY(double y) {
 		this.y += y;
 	}
 
-	public void addZ(int z) {
+	public void addZ(double z) {
 		this.z += z;
 	}
 }

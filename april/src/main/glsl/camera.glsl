@@ -3,20 +3,24 @@ float castRay(vec3 origin, vec3 dir);
 vec3 render(vec3 origin, vec3 dir);
 
 uniform vec3 cameraPos;
+uniform vec2 cameraLook;
 
 %%%
 
-const float RAY_INTERCEPT_DISTANCE = 0.0001;
+const float RAY_INTERCEPT_DISTANCE = 0.000001;
 const int MAX_RAY_MARCHES = 64;
 
 vec3 getDirCameraRay(vec2 uv, vec3 pos, vec3 targ) {
+	// pos += cameraPos;
+	// targ -= cameraPos;
+
 	// Calculate camera's "orthonormal basis", i.e. its transform matrix components
-    vec3 camForward = normalize(targ - pos);
-    vec3 camRight = normalize(cross(vec3(0.0, 1.0, 0.0), camForward));
-    vec3 camUp = normalize(cross(camForward, camRight));
+    vec3 forward = normalize(targ - pos);
+	vec3 right = normalize(cross(vec3(0.0, 1.0, 0.0), forward));
+    vec3 up = normalize(cross(forward, right));
 
     float fPersp = 2.0;
-    vec3 vDir = normalize(uv.x * camRight + uv.y * camUp + camForward * fPersp);
+    vec3 vDir = normalize(uv.x * right + uv.y * up + forward * fPersp);
 
     return vDir;
 }
@@ -48,19 +52,17 @@ vec3 render(vec3 origin, vec3 dir) {
 	if (t == -1) {
 		// Draw a neat background. Looked around, and this is
 		// what a lot of 3D design software use.
-		col = vec3(0.30, 0.36, 0.60) - (dir.y * 0.7);
-
-		return col;
+		// return vec3(dir.x+pulse(), dir.y-pulse(), dir.z*pulse());
+		return vec3(dir.x, dir.y, dir.z);
 	}
 
-    // Visualize depth. Borrowed, could use some work.
 	vec3 L = normalize(vec3(sin(time)*1.0, cos(time*0.5)+0.5, -0.5));
 	vec3 pos = origin + dir * t;
 	vec3 normal = calcNormal(pos);
-	vec3 objectSurfaceColour = vec3(0.4, 0.8, 0.1);
+	vec3 objectSurfaceColour = vec3(1.0, 1.0, 1.0);
 	float NoL = max(dot(normal, L), 0.0);
-	vec3 LDirectional = vec3(1.80,1.27,0.99) * NoL;
-	vec3 LAmbient = vec3(0.03, 0.04, 0.1);
+	vec3 LDirectional = vec3(0.0,0.0,1.0) * NoL;
+	vec3 LAmbient = vec3(0.5, 0.25, 0.15);
 	vec3 diffuse = objectSurfaceColour * (LDirectional + LAmbient);
 
 	col = diffuse;

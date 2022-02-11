@@ -42,6 +42,8 @@ public class Renderer {
     int ebo;
     int vao;
     int vbo;
+	double mousePosX = 0;
+	double mousePoxY = 0;
 
     public Renderer(GLFWContext glfwContext) {
         this.glfwContext = glfwContext;
@@ -68,6 +70,9 @@ public class Renderer {
 				(float) glfwContext.getCamera().getPosition().getX(),
 				(float) glfwContext.getCamera().getPosition().getY(),
 				(float) glfwContext.getCamera().getPosition().getZ());
+		program.setUniform("cameraLook",
+				(float) glfwContext.getCamera().getLookAt().getX(),
+				(float) glfwContext.getCamera().getLookAt().getY());
 
         GL41.glBindVertexArray(vao);
         GL41.glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

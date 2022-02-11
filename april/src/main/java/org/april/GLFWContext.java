@@ -19,8 +19,8 @@ import static org.lwjgl.system.MemoryUtil.*;
  *     https://learnopengl.com/Getting-started/Creating-a-window
  *     https://learnopengl.com/Getting-started/Hello-Window */
 public class GLFWContext {
-	private static final int WINDOW_WIDTH = 2000;
-	private static final int WINDOW_HEIGHT = 2000;
+	private static final int WINDOW_WIDTH = 1000;
+	private static final int WINDOW_HEIGHT = 500;
 
 	private GLFWVidMode monitorResolution;
 	private Camera camera = new Camera();
@@ -39,8 +39,9 @@ public class GLFWContext {
 		initWindow();
 		setGLFWCurrentContext();
 		setFramebufferResizeCallback();
-		setCharacterCallback();
+		// setCharacterCallback();
 		setMonitorResolution();
+		configureInput();
 		setInputCallback();
 		pushFrame();
 		setWindowVisibility(true);
@@ -125,6 +126,11 @@ public class GLFWContext {
 		});
 	}
 
+	private void configureInput() {
+		// Hide mouse pointer
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	}
+
 	private void setFramebufferResizeCallback() {
 		glfwSetFramebufferSizeCallback(window, (window, width, height) -> {
 			this.width = width;
@@ -136,25 +142,26 @@ public class GLFWContext {
 
 	private void setCharacterCallback() {
 		glfwSetCharCallback(window, (window, code) -> {
-			if (code == 'w') {
+			/* if (code == 'w') {
 				// Forward
-				camera.getPosition().addZ(1);
+				camera.getPosition().addZ(0.1);
 			} else if (code == 'a') {
 				// Left
-				camera.getPosition().addX(1);
+				camera.getPosition().addX(0.1);
 			} else if (code == 's') {
 				// Backward
-				camera.getPosition().addZ(-1);
+				camera.getPosition().addZ(-0.1);
 			} else if (code == 'd') {
 				// Right
-				camera.getPosition().addX(-1);
+				camera.getPosition().addX(-0.1);
 			} else if (code == ' ') {
 				// Up
-				camera.getPosition().addY(1);
+				camera.getPosition().addY(0.1);
 			} else if (code == 'c') {
 				// Down
-				camera.getPosition().addY(-1);
-			}
+				camera.getPosition().addY(-0.1);
+			} */
+
 		});
 	}
 

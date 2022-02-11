@@ -6,8 +6,8 @@ uniform vec3 cameraPos;
 
 %%%
 
-const float RAY_INTERCEPT_DISTANCE = 0.001;
-const int MAX_RAY_MARCHES = 10;
+const float RAY_INTERCEPT_DISTANCE = 0.0001;
+const int MAX_RAY_MARCHES = 64;
 
 vec3 getDirCameraRay(vec2 uv, vec3 pos, vec3 targ) {
 	// Calculate camera's "orthonormal basis", i.e. its transform matrix components

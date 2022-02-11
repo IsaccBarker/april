@@ -19,8 +19,12 @@ import static org.lwjgl.system.MemoryUtil.*;
  *     https://learnopengl.com/Getting-started/Creating-a-window
  *     https://learnopengl.com/Getting-started/Hello-Window */
 public class GLFWContext {
-	private long window;
+	private static final int WINDOW_WIDTH = 2000;
+	private static final int WINDOW_HEIGHT = 2000;
+
 	private GLFWVidMode monitorResolution;
+	private Camera camera = new Camera();
+	private long window;
 	private int width;
 	private int height;
 
@@ -35,6 +39,7 @@ public class GLFWContext {
 		initWindow();
 		setGLFWCurrentContext();
 		setFramebufferResizeCallback();
+		setCharacterCallback();
 		setMonitorResolution();
 		setInputCallback();
 		pushFrame();
@@ -62,6 +67,10 @@ public class GLFWContext {
 
 	public GLFWVidMode getMonitorResolution() {
 		return monitorResolution;
+	}
+
+	public Camera getCamera() {
+		return camera;
 	}
 
 	public int getWidth() {
@@ -100,13 +109,13 @@ public class GLFWContext {
 	}
 
 	private void initWindow() {
-		window = glfwCreateWindow(1000, 1000, "April Ray Marching", NULL, NULL);
+		window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "April Ray Marching", NULL, NULL);
 		if (window == NULL) {
 			throw new RuntimeException("Failed to create the GLFW window");
         }
 
-		this.width = 1000;
-		this.height = 1000;
+		this.width = WINDOW_WIDTH;
+		this.height = WINDOW_HEIGHT;
 	}
 	
 	private void setInputCallback() {
@@ -122,6 +131,30 @@ public class GLFWContext {
 			this.height = height;
 
 			glViewport(0, 0, width, height);
+		});
+	}
+
+	private void setCharacterCallback() {
+		glfwSetCharCallback(window, (window, code) -> {
+			if (code == 'w') {
+				// Forward
+				camera.getPosition().addZ(1);
+			} else if (code == 'a') {
+				// Left
+				camera.getPosition().addX(1);
+			} else if (code == 's') {
+				// Backward
+				camera.getPosition().addZ(-1);
+			} else if (code == 'd') {
+				// Right
+				camera.getPosition().addX(-1);
+			} else if (code == ' ') {
+				// Up
+				camera.getPosition().addY(1);
+			} else if (code == 'c') {
+				// Down
+				camera.getPosition().addY(-1);
+			}
 		});
 	}
 

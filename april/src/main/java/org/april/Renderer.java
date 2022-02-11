@@ -64,8 +64,10 @@ public class Renderer {
 		program.bind();
 		program.setUniform("time", timeValue);
 		program.setUniform("resolution", glfwContext.getWidth(), glfwContext.getHeight());
-
-		System.out.println(glfwContext.getWidth() + ", " + glfwContext.getHeight());
+		program.setUniform("cameraPos",
+				(float) glfwContext.getCamera().getPosition().getX(),
+				(float) glfwContext.getCamera().getPosition().getY(),
+				(float) glfwContext.getCamera().getPosition().getZ());
 
         GL41.glBindVertexArray(vao);
         GL41.glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

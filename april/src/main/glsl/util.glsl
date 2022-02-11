@@ -1,17 +1,17 @@
 vec2 screenSpaceToWorldSpace(vec2 screen);
-vec2 normalizeScreenCoords(vec2 screenCoord);
+vec2 normalizeScreenCoords(vec2 screenCoord); // , vec3 cameraPos);
 float smoothMin(float a, float b, float k);
 vec3 calcNormal(vec3 pos);
 
 %%%
 
 /** Translates 2D screen space coordinates to world space coordinates. */
-vec2 normalizeScreenCoords(vec2 screenCoord, vec2 cameraPos) {
+vec2 normalizeScreenCoords(vec2 screenCoord) { // , vec3 cameraPos) {
 	vec2 result = 2.0 * (screenCoord / resolution.xy - 0.5);
 
 	// I don't think this is the right way to do this, but after tinkering
 	// for about 5 minutes it works :D
-	result += cameraPos;
+	// result += cameraPos;
 
 	result.x *= resolution.x / resolution.y;
 

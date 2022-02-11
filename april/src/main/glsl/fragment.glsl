@@ -14,11 +14,11 @@ void main() {
 	
 	fragColor = vec4(col, 1.0); */
 
-	vec3 camPos = vec3(0, 0, -1);
+	vec3 camPos = vec3(0, 0, -1) + cameraPos;
     vec3 camTarget = vec3(0, 0, 0);
 
-    vec2 uv = normalizeScreenCoords(gl_FragCoord.xy);
-    vec3 rayDir = getDirCameraRay(uv, camPos, camTarget);   
+    vec2 uv = normalizeScreenCoords(gl_FragCoord.xy); // , cameraPos);
+    vec3 rayDir = getDirCameraRay(uv, camPos, camTarget);
 
     vec3 col = render(camPos, rayDir);
 

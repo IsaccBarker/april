@@ -67,13 +67,13 @@ public class Renderer {
 		program.setUniform("time", (float) timeValue);
 		program.setUniform("resolution", glfwContext.getWidth(), glfwContext.getHeight());
 		program.setUniform("zoom", (float) glfwContext.getCamera().getZoom());
-		program.setUniform("cameraPos",
+		/* program.setUniform("cameraPos",
 				(float) glfwContext.getCamera().getPosition().getX(),
 				(float) glfwContext.getCamera().getPosition().getY(),
 				(float) glfwContext.getCamera().getPosition().getZ());
 		program.setUniform("cameraLook",
 				(float) glfwContext.getCamera().getLookAt().getX(),
-				(float) glfwContext.getCamera().getLookAt().getY());
+				(float) glfwContext.getCamera().getLookAt().getY()); */
 
         GL41.glBindVertexArray(vao);
         GL41.glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

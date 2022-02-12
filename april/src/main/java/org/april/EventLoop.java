@@ -3,6 +3,7 @@ package org.april;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
+import glm_.vec3.Vec3;
 
 import java.nio.*;
 
@@ -11,6 +12,8 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
+
+
 
 public class EventLoop {
     GLFWContext glfwContext;
@@ -48,28 +51,37 @@ public class EventLoop {
 	}
 
 	private void getKeyboardInput() {
+		Vec3 pos = glfwContext.getCamera().getPosition();
+		Vec3 up = glfwContext.getCamera().getUp();
+		Vec3 front = glfwContext.getCamera().getFront();
+		double speed = 0.05;
+
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_W) == GLFW_PRESS) {
-			glfwContext.getCamera().getPosition().addZ(-0.1);
+			// glfwContext.getCamera().getPosition().addZ(-0.1);
+			pos = pos.plus(front.times(speed));
 		}
 		
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_A) == GLFW_PRESS) {
-			glfwContext.getCamera().getPosition().addX(-0.1);
+			// glfwContext.getCamera().getPosition().addX(-0.1);
+			pos = pos.minus(front.cross(up).normalize().times(speed));
 		}
 		
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_S) == GLFW_PRESS) {
-			glfwContext.getCamera().getPosition().addZ(0.1);
+			// glfwContext.getCamera().getPosition().addZ(0.1);
+			pos = pos.minus(front.times(speed));
 		}
 		
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_D) == GLFW_PRESS) {
-			glfwContext.getCamera().getPosition().addX(0.1);
+			// glfwContext.getCamera().getPosition().addX(0.1);
+			pos = pos.plus(front.cross(up).normalize().times(speed));
 		}
 
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_C) == GLFW_PRESS) {
-			glfwContext.getCamera().getPosition().addY(-0.1);
+			// glfwContext.getCamera().getPosition().addY(-0.1);
 		}
 		
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_SPACE) == GLFW_PRESS) {
-			glfwContext.getCamera().getPosition().addY(0.1);
+			// glfwContext.getCamera().getPosition().addY(0.1);
 		}
 	}
 
@@ -80,8 +92,8 @@ public class EventLoop {
 
 			glfwGetCursorPos(glfwContext.getWindow(), x, y);
 
-			glfwContext.getCamera().getLookAt().setX(x.get(0));
-			glfwContext.getCamera().getLookAt().setY(y.get(0));
+			// glfwContext.getCamera().getLookAt().setX(x.get(0));
+			// glfwContext.getCamera().getLookAt().setY(y.get(0));
 		}
 	}
 }

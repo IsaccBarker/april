@@ -1,16 +1,23 @@
 package org.april;
 
+import glm_.vec3.Vec3
+
 public class Camera {
-	Position position = new Position();
-	Point lookAt = new Point();
+	Vec3 position = new Vec3(0.0, 0.0, 3.0);
+	Vec3 target = new Vec3(0.0, 0.0, 0.0);
+	Vec3 direction = new Vec3();
 	double zoom = 0;
 
-	public Position getPosition() {
+	public Vec3 getPosition() {
 		return position;
 	}
 
-	public Point getLookAt() {
-		return lookAt;
+	public Vec3 getTarget() {
+		return target;
+	}
+
+	public Vec3 getDirection() {
+		return direction;
 	}
 
 	public double getZoom() {

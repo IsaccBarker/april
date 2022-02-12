@@ -55,10 +55,17 @@ void main() {
     
     fragColor = vec4(color, 1.0); */
 
-	vec2 uv = (gl_FragCoord.xy - 0.5 * resolution.xy) / resolution.y;
+	// vec2 uv = (gl_FragCoord.xy - 0.5 * resolution.xy) / resolution.y;
+	vec2 uv = gl_FragCoord.st / resolution.xy;
 	vec3 col = vec3(1);
 	vec3 ro = vec3(cameraPos.x, cameraPos.y, cameraPos.z - zoom); // ray origin that represents camera position
 	vec3 rd = normalize(vec3(uv, -1)); // ray direction
+
+	fragColor = vec4(uv.x,uv.y,0.0,1.0);
+	return;
+
+	rd *= rotateY(-cameraLook.x/100);
+
 	float dist = castRay(ro, rd);
 
 	if (rayCollided(dist)) {

@@ -128,7 +128,7 @@ public class GLFWContext {
 
 	private void configureInput() {
 		// Trap mouse pointer
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		// glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
 
 	private void setFramebufferResizeCallback() {

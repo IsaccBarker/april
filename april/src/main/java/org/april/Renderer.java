@@ -61,11 +61,12 @@ public class Renderer {
     }
 
     public void renderToBuffer() { 
-        float timeValue = (float) Math.abs(Math.sin(glfwGetTime()));
+        double timeValue = Math.abs(Math.sin(glfwGetTime()));
 
 		program.bind();
-		program.setUniform("time", timeValue);
+		program.setUniform("time", (float) timeValue);
 		program.setUniform("resolution", glfwContext.getWidth(), glfwContext.getHeight());
+		program.setUniform("zoom", (float) glfwContext.getCamera().getZoom());
 		program.setUniform("cameraPos",
 				(float) glfwContext.getCamera().getPosition().getX(),
 				(float) glfwContext.getCamera().getPosition().getY(),
@@ -135,8 +136,9 @@ public class Renderer {
             fragment = new Shader(ShaderType.FRAGMENT);
 			fragment.attachSource("./src/main/glsl/fragment.glsl");
 			fragment.attachSource("./src/main/glsl/util.glsl");
+			fragment.attachSource("./src/main/glsl/render.glsl");
 			fragment.attachSource("./src/main/glsl/sdfs.glsl");
-			fragment.attachSource("./src/main/glsl/camera.glsl");
+			// fragment.attachSource("./src/main/glsl/camera.glsl");
             fragment.compile();
         } catch (Exception e) {
             System.err.println("Failed to perform shader steps prior to program: " + e.getMessage());

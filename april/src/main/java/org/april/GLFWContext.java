@@ -39,7 +39,7 @@ public class GLFWContext {
 		initWindow();
 		setGLFWCurrentContext();
 		setFramebufferResizeCallback();
-		// setCharacterCallback();
+		setScrollCallback();
 		setMonitorResolution();
 		configureInput();
 		setInputCallback();
@@ -127,7 +127,7 @@ public class GLFWContext {
 	}
 
 	private void configureInput() {
-		// Hide mouse pointer
+		// Trap mouse pointer
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
 
@@ -140,28 +140,10 @@ public class GLFWContext {
 		});
 	}
 
-	private void setCharacterCallback() {
-		glfwSetCharCallback(window, (window, code) -> {
-			/* if (code == 'w') {
-				// Forward
-				camera.getPosition().addZ(0.1);
-			} else if (code == 'a') {
-				// Left
-				camera.getPosition().addX(0.1);
-			} else if (code == 's') {
-				// Backward
-				camera.getPosition().addZ(-0.1);
-			} else if (code == 'd') {
-				// Right
-				camera.getPosition().addX(-0.1);
-			} else if (code == ' ') {
-				// Up
-				camera.getPosition().addY(0.1);
-			} else if (code == 'c') {
-				// Down
-				camera.getPosition().addY(-0.1);
-			} */
-
+	// There is no way to not use a callback.
+	private void setScrollCallback() {
+		glfwSetScrollCallback(window, (window, x, y) -> {
+			camera.addZoom(y);
 		});
 	}
 

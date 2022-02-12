@@ -49,7 +49,7 @@ public class EventLoop {
 
 	private void getKeyboardInput() {
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_W) == GLFW_PRESS) {
-			glfwContext.getCamera().getPosition().addZ(0.1);
+			glfwContext.getCamera().getPosition().addZ(-0.1);
 		}
 		
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_A) == GLFW_PRESS) {
@@ -57,7 +57,7 @@ public class EventLoop {
 		}
 		
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_S) == GLFW_PRESS) {
-			glfwContext.getCamera().getPosition().addZ(-0.1);
+			glfwContext.getCamera().getPosition().addZ(0.1);
 		}
 		
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_D) == GLFW_PRESS) {
@@ -82,8 +82,6 @@ public class EventLoop {
 
 			glfwContext.getCamera().getLookAt().setX(x.get(0));
 			glfwContext.getCamera().getLookAt().setY(y.get(0));
-
-			System.out.println(x.get(0) + ", " + y.get(0));
 		}
 	}
 }

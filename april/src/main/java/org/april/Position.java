@@ -3,7 +3,7 @@ package org.april;
 public class Position {
 	private double x = 0;
 	private double y = 0;
-	private double z = 0;
+	private double z = -5;
 
 	public double getX() {
 		return x;

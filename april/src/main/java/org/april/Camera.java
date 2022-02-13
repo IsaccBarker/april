@@ -15,7 +15,7 @@ public class Camera {
 		RIGHT
 	};
 
-	private double yaw = -90.0f;
+	private double yaw = 0.0f;
 	private double pitch =  0.0f;
 	private double speed =  0.1f;
 	private float sensitivity =  0.1f;
@@ -32,6 +32,20 @@ public class Camera {
 		updateVectors();
 	}
 
+	public void offsetPosition(CameraMovement direction) {
+		Vector3f dump = new Vector3f();
+		Vector3f speed = new Vector3f((float) this.speed, (float) this.speed, (float) this.speed);
+		
+		if (direction == CameraMovement.FORWARD) {
+			System.out.println(front + " * " + speed);
+			// position.add(front);
+		}
+	}
+
+	public Vector3f getFront() {
+		return front;
+	}
+
 	public Vector2f getPrevMouse() {
 		return prevMouse;
 	}
@@ -41,13 +55,12 @@ public class Camera {
 	}
 
 	public Matrix4f getViewMatrix() {
-		Vector3f tmp = new Vector3f();
 		Matrix4f view = new Matrix4f();
-		tmp = position.add(front, tmp);
 
-		System.out.println(tmp + "\n" + tmp + "\n" + up + "\n\n");
+		view.rotateY((float) Math.toRadians(yaw));
+		view.rotateX((float) Math.toRadians(pitch));
 
-		return view.lookAt(position, tmp, up);
+		return view;
 	}
 
 	public void addSpeed(double s) {
@@ -71,23 +84,34 @@ public class Camera {
 	}
 
 	public void updateVectors() {
-        Vector3f _front = new Vector3f();
+        /* Vector3f _front = new Vector3f();
 		Vector3f right_tmp = new Vector3f();
 		Vector3f up_tmp = new Vector3f();
 
         _front.x = (float) (Math.cos(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)));
         _front.y = (float) (Math.sin(Math.toRadians(pitch)));
         _front.z = (float) (Math.sin(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)));
-		_front.normalize(front);
+		_front.normalize(front); */
 
-		front.cross(worldUp, right_tmp);
+		/* front.cross(worldUp, right_tmp);
 		right = right_tmp.normalize();
 
 		right.cross(front, up_tmp);
-		up = up_tmp.normalize();
+		up = up_tmp.normalize(); */
 
         /* right = glm::normalize(glm::cross(front, worldUp));
 		up = glm::normalize(glm::cross(Right, front)); */
+
+		Vector3f front = new Vector3f();
+		front.x = (float) (Math.cos(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)));
+		front.y = (float) (Math.cos(Math.toRadians(pitch)));
+		front.z = (float) (Math.cos(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)));
+
+		front.normalize();
+
+		this.front = front;
+
+		System.out.println(front);
 	}
 }
 

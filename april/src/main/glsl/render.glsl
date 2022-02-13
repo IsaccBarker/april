@@ -13,7 +13,7 @@ const float MIN_DIST = 0.00;
 const float MAX_DIST = 100.0;
 const float EPSILON = 0.001;
 
-uniform mat4 view;
+uniform mat4 rotationMatrix;
 uniform vec3 cameraPos;
 
 %%%

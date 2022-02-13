@@ -24,7 +24,7 @@ void main() {
 	vec3 color;
 	vec3 p;
 	vec3 viewDir = rayDirection(45, resolution.xy, gl_FragCoord.xy);
-    vec3 worldDir = (view * vec4(viewDir, 0.0)).xyz;
+    vec3 worldDir = (rotationMatrix * vec4(viewDir, 0.0)).xyz;
     float dist = castRay(cameraPos, worldDir);
 
     if (rayCollided(dist)) {

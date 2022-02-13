@@ -35,9 +35,9 @@ public class EventLoop {
     
     private void frame() {
         renderer.clearBuffer();
+		glfwContext.getCamera().updateVectors();
         glfwContext.pollEvents();
 		getInput();
-		glfwContext.getCamera().updateVectors();
 		// glfwContext.getCamera().moveRotation(0.0f, 0.01f, 0.0f);
 		// System.out.println(glfwContext.getCamera().getViewMatrix().toString());
 
@@ -59,10 +59,11 @@ public class EventLoop {
 		Vector3f pos = cam.getPosition();
 		double speed = cam.getSpeed();
 
-		System.out.println(speed);
+		// System.out.println(speed);
 
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_W) == GLFW_PRESS) {
 			pos.z -= speed;
+			// cam.offsetPosition(Camera.CameraMovement.FORWARD);
 		}
 		
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_A) == GLFW_PRESS) {

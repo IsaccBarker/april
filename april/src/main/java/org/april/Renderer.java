@@ -63,6 +63,8 @@ public class Renderer {
     public void renderToBuffer() { 
         double timeValue = Math.abs(Math.sin(glfwGetTime()));
 
+		// System.out.println(glfwContext.getCamera().getViewMatrix().toString());
+
 		program.bind();
 		program.setUniform("time", (float) timeValue);
 		program.setUniform("resolution", glfwContext.getWidth(), glfwContext.getHeight());

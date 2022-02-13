@@ -3,6 +3,7 @@ package org.april;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
+import org.joml.Vector3f;
 
 import java.nio.*;
 
@@ -36,9 +37,9 @@ public class EventLoop {
         renderer.clearBuffer();
         glfwContext.pollEvents();
 		getInput();
+		glfwContext.getCamera().updateVectors();
 		// glfwContext.getCamera().moveRotation(0.0f, 0.01f, 0.0f);
-		glfwContext.getCamera().updateViewMatrix();
-		System.out.println(glfwContext.getCamera().getViewMatrix().toString());
+		// System.out.println(glfwContext.getCamera().getViewMatrix().toString());
 
         renderer.renderToBuffer();
 
@@ -55,47 +56,57 @@ public class EventLoop {
 		Vec3 front = glfwContext.getCamera().getFront();
 		double speed = 0.05; */
 		Camera cam = glfwContext.getCamera();
+		Vector3f pos = cam.getPosition();
+		Camera.CameraMovement type = null;
 
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_W) == GLFW_PRESS) {
 			// glfwContext.getCamera().getPosition().addZ(-0.1);
 			// pos = pos.plus(front.times(speed));
-			cam.movePosition(0, 0, -0.1f);
+			// pos.z -= 0.1;
+			type = Camera.CameraMovement.FORWARD;
 		}
 		
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_A) == GLFW_PRESS) {
 			// glfwContext.getCamera().getPosition().addX(-0.1);
 			// pos = pos.minus(front.cross(up).normalize().times(speed));
-			cam.movePosition(-0.1f, 0, 0);
+			// pos.x -= 0.1;
+			type = Camera.CameraMovement.LEFT;
 		}
 		
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_S) == GLFW_PRESS) {
 			// glfwContext.getCamera().getPosition().addZ(0.1);
 			// pos = pos.minus(front.times(speed));
-			cam.movePosition(0, 0, 0.1f);
+			// pos.z += 0.1;
+			type = Camera.CameraMovement.BACKWARD;
 		}
 		
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_D) == GLFW_PRESS) {
 			// glfwContext.getCamera().getPosition().addX(0.1);
 			// pos = pos.plus(front.cross(up).normalize().times(speed));
-			cam.movePosition(0.1f, 0, 0);
+			// pos.x += 0.1;
+			type = Camera.CameraMovement.RIGHT;
 		}
 
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_C) == GLFW_PRESS) {
 			// glfwContext.getCamera().getPosition().addY(-0.1);
-			cam.movePosition(0, -0.1f, 0);
+			// pos.y -= 0.1;
 		}
 		
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_SPACE) == GLFW_PRESS) {
 			// glfwContext.getCamera().getPosition().addY(0.1);
-			cam.movePosition(0, 0.1f, 0);
+			// pos.y += 0.1;
 		}
 
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_Q) == GLFW_PRESS) {
-			cam.moveRotation(0.1f, 0.0f, 0.0f);
+			cam.addYaw(1f);
 		}
 
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_E) == GLFW_PRESS) {
-			cam.moveRotation(-0.1f, 0.0f, 0.0f);
+			cam.addYaw(-1f);
+		}
+
+		if (type != null) {
+			cam.offsetPosition(0.1f, type);
 		}
 	}
 }

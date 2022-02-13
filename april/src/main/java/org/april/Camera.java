@@ -5,101 +5,88 @@ import org.joml.Vector2f;
 import org.joml.Vector2d;
 import org.joml.Matrix4f;
 
+import java.lang.Math;
+
 public class Camera {
-	private Vector3f position = new Vector3f();
-	private Vector3f rotation = new Vector3f();
-	private Vector3f up = new Vector3f(0.0f, 1.0f, 0.0f);
-	private Vector3f center = new Vector3f();
-	private Matrix4f viewMatrix = new Matrix4f();
-	private final Vector2d previousPos = new Vector2d();
-    private final Vector2d currentPos = new Vector2d();
-    private final Vector2f displVec = new Vector2f();
-	private double speed = 1;
+	public enum CameraMovement {
+		FORWARD,
+		BACKWARD,
+		LEFT,
+		RIGHT
+	};
+
+	private float yaw = -90.0f;
+	private float pitch =  0.0f;
+	private double speed =  2.5f;
+	private float sensitivity =  0.1f;
+	private float zoom =  45.0f;
+
+	private Vector3f position = new Vector3f(0.0f);
+    private Vector3f front = new Vector3f(0.0f);
+    private Vector3f up = new Vector3f(0.0f, 1.0f, 0.0f);
+    private Vector3f right = new Vector3f(0.0f);
+    private Vector3f worldUp = new Vector3f(0.0f);
+
+	public Camera() {
+		updateVectors();
+	}
 
 	public Vector3f getPosition() {
-        return position;
-    }
+		return position;
+	}
 
-    public void setPosition(float x, float y, float z) {
-        position.x = x;
-        position.y = y;
-        position.z = z;
-    }
-
-    public void movePosition(float offsetX, float offsetY, float offsetZ) {
-		offsetX *= speed;
-		offsetY *= speed;
-		offsetZ *= speed;
-
-        if (offsetZ != 0 ) {
-            position.x += (float) Math.sin(Math.toRadians(rotation.y)) * -1.0f * offsetZ;
-            position.z += (float) Math.cos(Math.toRadians(rotation.y)) * offsetZ;
-        }
-
-        if (offsetX != 0) {
-            position.x += (float) Math.sin(Math.toRadians(rotation.y - 90)) * -1.0f * offsetX;
-            position.z += (float) Math.cos(Math.toRadians(rotation.y - 90)) * offsetX;
-        }
-
-		position.y += offsetY;
-    }
-
-    public Vector3f getRotation() {
-        return rotation;
-    }
+	public void offsetPosition(float n, CameraMovement direction) {
+		if (direction == CameraMovement.FORWARD) {
+			position.add(front);
+		} else if (direction == CameraMovement.BACKWARD) {
+			position.sub(front);
+		} else if (direction == CameraMovement.LEFT) {
+            position.sub(right);
+		} else if (direction == CameraMovement.RIGHT) {
+            position.add(right);
+		}
+	}
 
 	public Matrix4f getViewMatrix() {
-		return viewMatrix;
+		Vector3f tmp = new Vector3f();
+		Matrix4f view = new Matrix4f();
+		tmp = position.add(front, tmp);
+
+		System.out.println(tmp + "\n" + tmp + "\n" + up + "\n\n");
+
+		return view.lookAt(position, tmp, up);
 	}
 
-    public void setRotation(float x, float y, float z) {
-        rotation.x = x;
-        rotation.y = y;
-        rotation.z = z;
-    }
-
-    public void moveRotation(float offsetX, float offsetY, float offsetZ) {
-        rotation.x += offsetX;
-        rotation.y += offsetY;
-        rotation.z += offsetZ;
-    }
-
-	public void updateViewMatrix() {
-		/* viewMatrix.identity();
-
-		// First do the rotation so camera rotates over its position
-		viewMatrix.rotate((float)Math.toRadians(rotation.x), new Vector3f(1, 0, 0))
-			.rotate((float)Math.toRadians(rotation.y), new Vector3f(0, 1, 0));
-
-		// Then do the translation
-		viewMatrix.translate(-position.x, -position.y, -position.z); */
-
-		viewMatrix.identity();
-		viewMatrix.lookAt(position, rotation, up);
+	public void addSpeed(double s) {
+		speed += s;
 	}
-
-	public Vector2d getPrevVec() {
-        return previousPos;
-    }
-
-	public Vector2d getCurrentVec() {
-        return currentPos;
-    }
-
-	public Vector2f getDisplVec() {
-        return displVec;
-    }
 
 	public double getSpeed() {
 		return speed;
 	}
 
-	public void addSpeed(double speed) {
-		this.speed += speed;
+	public void addYaw(double y) {
+		yaw += y;
+	}
 
-		if (this.speed < 0.001) {
-			this.speed = 0.001;
-		}
+	public void updateVectors() {
+        Vector3f _front = new Vector3f();
+		Vector3f right_tmp = new Vector3f();
+		Vector3f up_tmp = new Vector3f();
+
+        _front.x = (float) (Math.cos(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)));
+        _front.y = (float) (Math.sin(Math.toRadians(pitch)));
+        _front.z = (float) (Math.sin(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)));
+		_front.normalize(front);
+
+		front.cross(worldUp, right_tmp);
+		right = right_tmp.normalize();
+
+		right.cross(front, up_tmp);
+		// up = up_tmp.normalize();
+
+        /* right = glm::normalize(glm::cross(front, worldUp));
+		up = glm::normalize(glm::cross(Right, front)); */
 	}
 }
 

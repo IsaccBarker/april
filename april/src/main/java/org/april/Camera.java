@@ -15,11 +15,16 @@ public class Camera {
 		RIGHT
 	};
 
+	public static final double SPEED = 0.1f;
+	public static final float FOV = 90.0f;
+	public static final float ZOOM = 45.0f;
+
 	private double yaw = 0.0f;
 	private double pitch =  0.0f;
-	private double speed =  0.1f;
+	private double speed =  SPEED;
 	private float sensitivity =  0.1f;
-	private float zoom =  45.0f;
+	private float zoom =  ZOOM;
+	private float fov = FOV;
 
 	private Vector2f prevMouse = new Vector2f();
 	private Vector3f position = new Vector3f(0.0f);
@@ -69,6 +74,14 @@ public class Camera {
 		if (speed < 0.005f) {
 			speed = 0.005f;
 		}
+
+		if (speed > 15) {
+			speed = 15;
+		}
+	}
+
+	public void setSpeed(double s) {
+		speed = s;
 	}
 
 	public double getSpeed() {
@@ -81,6 +94,28 @@ public class Camera {
 
 	public void addPitch(double p) {
 		pitch += p;
+	}
+
+	public void addFOV(double f) {
+		fov += f;
+	}
+
+	public void setFOV(float f) {
+		fov = f;
+	}
+
+	public float getFOV() {
+		return fov;
+	}
+
+	public void reset() {
+		fov = FOV;
+		speed = SPEED;
+		zoom = ZOOM;
+
+		position = new Vector3f(0.0f);
+		yaw = 0;
+		pitch = 0;
 	}
 
 	public void updateVectors() {

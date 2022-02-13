@@ -71,6 +71,7 @@ public class Renderer {
 		program.setUniform("speed", (float) glfwContext.getCamera().getSpeed());
 		program.setUniform("rotationMatrix", glfwContext.getCamera().getViewMatrix());
 		program.setUniform("cameraPos", glfwContext.getCamera().getPosition());
+		program.setUniform("fov", glfwContext.getCamera().getFOV());
 		/* program.setUniform("cameraPos",
 				(float) glfwContext.getCamera().getPosition().getX(),
 				(float) glfwContext.getCamera().getPosition().getY(),

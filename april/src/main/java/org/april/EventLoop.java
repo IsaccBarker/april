@@ -16,6 +16,7 @@ import static org.lwjgl.system.MemoryUtil.*;
 public class EventLoop {
     GLFWContext glfwContext;
     Renderer renderer;
+	char lastKey = ' ';
 
     public EventLoop(GLFWContext glfwContext, Renderer renderer) {
         this.glfwContext = glfwContext;
@@ -87,7 +88,15 @@ public class EventLoop {
 		}
 
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_M) == GLFW_PRESS) {
-			glfwContext.toggleMouseCapture();
+			if (glfwGetTime() - glfwContext.getLast() < 100) {
+				glfwContext.toggleMouseCapture();
+
+				glfwContext.setLast(glfwGetTime());
+			}
+		}
+
+		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_0) == GLFW_PRESS) {
+			cam.reset();
 		}
 	}
 }

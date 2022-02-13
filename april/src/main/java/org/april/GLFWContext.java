@@ -30,6 +30,7 @@ public class GLFWContext {
 	private int width;
 	private int height;
 	private boolean mouseCapture = false;
+	private double last;
 
 	public long getWindow() {
 		return window;
@@ -84,6 +85,14 @@ public class GLFWContext {
 
 	public int getHeight() {
 		return height;
+	}
+
+	public double getLast() {
+		return last;
+	}
+
+	public void setLast(double l) {
+		last = l;
 	}
 
 	public void toggleMouseCapture() {
@@ -192,7 +201,11 @@ public class GLFWContext {
 	// There is no way to not use a callback.
 	private void setScrollCallback() {
 		glfwSetScrollCallback(window, (window, x, y) -> {
-			camera.addSpeed((y/50));
+			if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+				camera.addFOV((y/25));
+			} else {
+				camera.addSpeed(-(y/25));
+			}
 		});
 	}
 

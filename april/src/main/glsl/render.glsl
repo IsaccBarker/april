@@ -3,21 +3,18 @@ bool rayCollided(float r);
 vec3 rayDirection(float fieldOfView, vec2 size, vec2 fragCoord);
 vec3 estimateNormal(vec3 p);
 mat4 viewMatrix(vec3 eye, vec3 center, vec3 up);
-vec3 phongContribForLight(vec3 k_d, vec3 k_s, float alpha, vec3 p, vec3 eye, vec3 lightPos, vec3 lightIntensity);
-vec3 phongIllumination(vec3 k_a, vec3 k_d, vec3 k_s, float alpha, vec3 p, vec3 eye);
 mat3 rotateX(float theta);
 mat3 rotateY(float theta);
 mat3 rotateZ(float theta);
 mat3 identity();
 
-const int MAX_MARCHING_STEPS = 255;
-const float MIN_DIST = 0.0;
+const int MAX_MARCHING_STEPS = 256;
+const float MIN_DIST = 0.00;
 const float MAX_DIST = 100.0;
-const float EPSILON = 0.0001;
+const float EPSILON = 0.001;
 
 uniform mat4 view;
 uniform vec3 cameraPos;
-uniform float zoom;
 
 %%%
 
@@ -57,53 +54,6 @@ vec3 estimateNormal(vec3 p) {
         sdf(vec3(p.x, p.y + EPSILON, p.z)) - sdf(vec3(p.x, p.y - EPSILON, p.z)),
         sdf(vec3(p.x, p.y, p.z  + EPSILON)) - sdf(vec3(p.x, p.y, p.z - EPSILON))
     ));
-}
-
-vec3 phongContribForLight(vec3 k_d, vec3 k_s, float alpha, vec3 p, vec3 eye,
-                          vec3 lightPos, vec3 lightIntensity) {
-    vec3 N = estimateNormal(p);
-    vec3 L = normalize(lightPos - p);
-    vec3 V = normalize(eye - p);
-    vec3 R = normalize(reflect(-L, N));
-    
-    float dotLN = dot(L, N);
-    float dotRV = dot(R, V);
-    
-    if (dotLN < 0.0) {
-        // Light not visible from this point on the surface
-        return vec3(0.0, 0.0, 0.0);
-    } 
-    
-    if (dotRV < 0.0) {
-        // Light reflection in opposite direction as viewer, apply only diffuse
-        // component
-        return lightIntensity * (k_d * dotLN);
-    }
-    return lightIntensity * (k_d * dotLN + k_s * pow(dotRV, alpha));
-}
-
-vec3 phongIllumination(vec3 k_a, vec3 k_d, vec3 k_s, float alpha, vec3 p, vec3 eye) {
-    const vec3 ambientLight = 0.5 * vec3(1.0, 1.0, 1.0);
-    vec3 color = ambientLight * k_a;
-    
-    vec3 light1Pos = vec3(4.0,
-                          2.0,
-                          4.0);
-    vec3 light1Intensity = vec3(0.4, 0.4, 0.4);
-    
-    color += phongContribForLight(k_d, k_s, alpha, p, eye,
-                                  light1Pos,
-                                  light1Intensity);
-    
-    vec3 light2Pos = vec3(2.0,
-                          2.0,
-                          2.0);
-    vec3 light2Intensity = vec3(0.4, 0.4, 0.4);
-    
-    color += phongContribForLight(k_d, k_s, alpha, p, eye,
-                                  light2Pos,
-                                  light2Intensity);    
-    return color;
 }
 
 // Rotation matrix around the X axis.

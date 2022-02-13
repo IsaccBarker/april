@@ -175,7 +175,7 @@ public class GLFWContext {
 	// There is no way to not use a callback.
 	private void setScrollCallback() {
 		glfwSetScrollCallback(window, (window, x, y) -> {
-			camera.addZoom(y);
+			camera.addSpeed(-(y/50));
 		});
 	}
 

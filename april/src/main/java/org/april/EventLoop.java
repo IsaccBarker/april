@@ -91,7 +91,11 @@ public class EventLoop {
 		}
 
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_Q) == GLFW_PRESS) {
-			cam.moveRotation(0.0f, 0.5f, 0.0f);
+			cam.moveRotation(0.1f, 0.0f, 0.0f);
+		}
+
+		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_E) == GLFW_PRESS) {
+			cam.moveRotation(-0.1f, 0.0f, 0.0f);
 		}
 	}
 }

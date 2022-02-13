@@ -14,7 +14,7 @@ public class Camera {
 	private final Vector2d previousPos = new Vector2d();
     private final Vector2d currentPos = new Vector2d();
     private final Vector2f displVec = new Vector2f();
-	private double zoom = 0;
+	private double speed = 1;
 
 	public Vector3f getPosition() {
         return position;
@@ -27,6 +27,10 @@ public class Camera {
     }
 
     public void movePosition(float offsetX, float offsetY, float offsetZ) {
+		offsetX *= speed;
+		offsetY *= speed;
+		offsetZ *= speed;
+
         if (offsetZ != 0 ) {
             position.x += (float) Math.sin(Math.toRadians(rotation.y)) * -1.0f * offsetZ;
             position.z += (float) Math.cos(Math.toRadians(rotation.y)) * offsetZ;
@@ -61,17 +65,17 @@ public class Camera {
     }
 
 	public void updateViewMatrix() {
-		viewMatrix.identity();
+		/* viewMatrix.identity();
 
 		// First do the rotation so camera rotates over its position
 		viewMatrix.rotate((float)Math.toRadians(rotation.x), new Vector3f(1, 0, 0))
 			.rotate((float)Math.toRadians(rotation.y), new Vector3f(0, 1, 0));
 
 		// Then do the translation
-		viewMatrix.translate(-position.x, -position.y, -position.z);
+		viewMatrix.translate(-position.x, -position.y, -position.z); */
 
-		/* viewMatrix.identity();
-		viewMatrix.lookAt(position, rotation, up); */
+		viewMatrix.identity();
+		viewMatrix.lookAt(position, rotation, up);
 	}
 
 	public Vector2d getPrevVec() {
@@ -86,15 +90,15 @@ public class Camera {
         return displVec;
     }
 
-	public double getZoom() {
-		return zoom;
+	public double getSpeed() {
+		return speed;
 	}
 
-	public void addZoom(double zoom) {
-		this.zoom += zoom;
+	public void addSpeed(double speed) {
+		this.speed += speed;
 
-		if (this.zoom < 1) {
-			this.zoom = 1;
+		if (this.speed < 0.001) {
+			this.speed = 0.001;
 		}
 	}
 }

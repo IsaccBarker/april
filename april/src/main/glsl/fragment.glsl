@@ -21,27 +21,35 @@ mat4 viewMatrix(vec3 eye, vec3 center, vec3 up) {
 
 /** Entry. */
 void main() {
-	vec3 viewDir = rayDirection(45+zoom, resolution.xy, gl_FragCoord.xy);
+	vec3 color;
+	vec3 p;
+	vec3 viewDir = rayDirection(45, resolution.xy, gl_FragCoord.xy);
     vec3 worldDir = (view * vec4(viewDir, 0.0)).xyz;
     float dist = castRay(cameraPos, worldDir);
 
     if (rayCollided(dist)) {
         // Didn't hit anything
-        fragColor = vec4(0.0, 0.0, 0.0, 0.0);
+        fragColor = vec4(0.0, 0.0, 0.0, 1.0);
 
 		return;
     }
 
+	/* fragColor = vec4(0.0, 0.0, 0.0, 1.0);
+
+	return; */
+
     // The closest point on the surface to the eyepoint along the view ray
-    vec3 p = cameraPos + dist * worldDir;
+    /* vec3 p = cameraPos + dist * worldDir;
 
     vec3 K_a = vec3(0.2, 0.2, 0.2);
     vec3 K_d = vec3(0.7, 0.2, 0.2);
     vec3 K_s = vec3(1.0, 1.0, 1.0);
     float shininess = 100.0;
 
-    vec3 color = phongIllumination(K_a, K_d, K_s, shininess, p, cameraPos);
+    vec3 color = phongIllumination(K_a, K_d, K_s, shininess, p, cameraPos); */
 
+	p = cameraPos + dist * worldDir;
+	color = vec3((estimateNormal(p) * vec3(0.5) + vec3(0.5)).x, p.y, dist / 5);
     fragColor = vec4(color, 1.0);
 }
 

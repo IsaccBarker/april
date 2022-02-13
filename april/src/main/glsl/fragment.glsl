@@ -49,7 +49,7 @@ void main() {
     vec3 color = phongIllumination(K_a, K_d, K_s, shininess, p, cameraPos); */
 
 	p = cameraPos + dist * worldDir;
-	color = vec3((estimateNormal(p) * vec3(0.5) + vec3(0.5)).x, p.y, dist / 5);
+	color = vec3((estimateNormal(p) * vec3(0.5) + vec3(0.5)));
     fragColor = vec4(color, 1.0);
 }
 

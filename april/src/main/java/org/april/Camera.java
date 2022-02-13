@@ -15,12 +15,13 @@ public class Camera {
 		RIGHT
 	};
 
-	private float yaw = -90.0f;
-	private float pitch =  0.0f;
-	private double speed =  2.5f;
+	private double yaw = -90.0f;
+	private double pitch =  0.0f;
+	private double speed =  0.1f;
 	private float sensitivity =  0.1f;
 	private float zoom =  45.0f;
 
+	private Vector2f prevMouse = new Vector2f();
 	private Vector3f position = new Vector3f(0.0f);
     private Vector3f front = new Vector3f(0.0f);
     private Vector3f up = new Vector3f(0.0f, 1.0f, 0.0f);
@@ -31,20 +32,12 @@ public class Camera {
 		updateVectors();
 	}
 
-	public Vector3f getPosition() {
-		return position;
+	public Vector2f getPrevMouse() {
+		return prevMouse;
 	}
 
-	public void offsetPosition(float n, CameraMovement direction) {
-		if (direction == CameraMovement.FORWARD) {
-			position.add(front);
-		} else if (direction == CameraMovement.BACKWARD) {
-			position.sub(front);
-		} else if (direction == CameraMovement.LEFT) {
-            position.sub(right);
-		} else if (direction == CameraMovement.RIGHT) {
-            position.add(right);
-		}
+	public Vector3f getPosition() {
+		return position;
 	}
 
 	public Matrix4f getViewMatrix() {
@@ -59,6 +52,10 @@ public class Camera {
 
 	public void addSpeed(double s) {
 		speed += s;
+
+		if (speed < 0.005f) {
+			speed = 0.005f;
+		}
 	}
 
 	public double getSpeed() {
@@ -67,6 +64,10 @@ public class Camera {
 
 	public void addYaw(double y) {
 		yaw += y;
+	}
+
+	public void addPitch(double p) {
+		pitch += p;
 	}
 
 	public void updateVectors() {
@@ -83,7 +84,7 @@ public class Camera {
 		right = right_tmp.normalize();
 
 		right.cross(front, up_tmp);
-		// up = up_tmp.normalize();
+		up = up_tmp.normalize();
 
         /* right = glm::normalize(glm::cross(front, worldUp));
 		up = glm::normalize(glm::cross(Right, front)); */

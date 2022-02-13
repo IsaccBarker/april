@@ -29,6 +29,7 @@ public class GLFWContext {
 	private long window;
 	private int width;
 	private int height;
+	private boolean mouseCapture = false;
 
 	public long getWindow() {
 		return window;
@@ -44,7 +45,7 @@ public class GLFWContext {
 		setCursorMoveCallback();
 		setScrollCallback();
 		setMonitorResolution();
-		configureInput();
+		toggleMouseCapture();
 		setInputCallback();
 		pushFrame();
 		setWindowVisibility(true);
@@ -83,6 +84,16 @@ public class GLFWContext {
 
 	public int getHeight() {
 		return height;
+	}
+
+	public void toggleMouseCapture() {
+		mouseCapture = !mouseCapture;
+
+		if (mouseCapture) {
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		} else {
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+		}
 	}
 
 	private void setMonitorResolution() {
@@ -130,8 +141,19 @@ public class GLFWContext {
 	}
 
 	private void setCursorMoveCallback() {
-		/* glfwSetCursorPosCallback(window, (window, xpos, ypos) -> {
-			Vector2d previous = camera.getPrevVec();
+		glfwSetCursorPosCallback(window, (window, xpos, ypos) -> {
+			xpos /= 15;
+			ypos /= 15;
+
+			Vector2f prev = camera.getPrevMouse();
+
+			camera.addYaw(prev.x - xpos);
+			camera.addPitch(prev.y - ypos);
+
+			prev.x = (float) xpos;
+			prev.y = (float) ypos;
+
+			/* Vector2d previous = camera.getPrevVec();
 			Vector2f display = camera.getDisplVec();
 
 			display.x = 0;
@@ -154,13 +176,8 @@ public class GLFWContext {
 			previous.x = xpos;
 			previous.y = ypos;
 
-			camera.moveRotation(display.x / 25, display.y / 25, 0);
-		}); */
-	}
-
-	private void configureInput() {
-		// Trap mouse pointer
-		// glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			camera.moveRotation(display.x / 25, display.y / 25, 0); */
+		});
 	}
 
 	private void setFramebufferResizeCallback() {
@@ -175,7 +192,7 @@ public class GLFWContext {
 	// There is no way to not use a callback.
 	private void setScrollCallback() {
 		glfwSetScrollCallback(window, (window, x, y) -> {
-			camera.addSpeed(-(y/50));
+			camera.addSpeed((y/50));
 		});
 	}
 

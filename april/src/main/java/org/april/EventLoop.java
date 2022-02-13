@@ -57,56 +57,36 @@ public class EventLoop {
 		double speed = 0.05; */
 		Camera cam = glfwContext.getCamera();
 		Vector3f pos = cam.getPosition();
-		Camera.CameraMovement type = null;
+		double speed = cam.getSpeed();
+
+		System.out.println(speed);
 
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_W) == GLFW_PRESS) {
-			// glfwContext.getCamera().getPosition().addZ(-0.1);
-			// pos = pos.plus(front.times(speed));
-			// pos.z -= 0.1;
-			type = Camera.CameraMovement.FORWARD;
+			pos.z -= speed;
 		}
 		
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_A) == GLFW_PRESS) {
-			// glfwContext.getCamera().getPosition().addX(-0.1);
-			// pos = pos.minus(front.cross(up).normalize().times(speed));
-			// pos.x -= 0.1;
-			type = Camera.CameraMovement.LEFT;
+			pos.x -= speed;
 		}
 		
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_S) == GLFW_PRESS) {
-			// glfwContext.getCamera().getPosition().addZ(0.1);
-			// pos = pos.minus(front.times(speed));
-			// pos.z += 0.1;
-			type = Camera.CameraMovement.BACKWARD;
+			pos.z += speed;
 		}
 		
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_D) == GLFW_PRESS) {
-			// glfwContext.getCamera().getPosition().addX(0.1);
-			// pos = pos.plus(front.cross(up).normalize().times(speed));
-			// pos.x += 0.1;
-			type = Camera.CameraMovement.RIGHT;
+			pos.x += speed;
 		}
 
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_C) == GLFW_PRESS) {
-			// glfwContext.getCamera().getPosition().addY(-0.1);
-			// pos.y -= 0.1;
+			pos.y -= speed;
 		}
 		
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_SPACE) == GLFW_PRESS) {
-			// glfwContext.getCamera().getPosition().addY(0.1);
-			// pos.y += 0.1;
+			pos.y += speed;
 		}
 
-		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_Q) == GLFW_PRESS) {
-			cam.addYaw(1f);
-		}
-
-		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_E) == GLFW_PRESS) {
-			cam.addYaw(-1f);
-		}
-
-		if (type != null) {
-			cam.offsetPosition(0.1f, type);
+		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_M) == GLFW_PRESS) {
+			glfwContext.toggleMouseCapture();
 		}
 	}
 }

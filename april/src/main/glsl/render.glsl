@@ -15,8 +15,8 @@ const float MIN_DIST = 0.0;
 const float MAX_DIST = 100.0;
 const float EPSILON = 0.0001;
 
+uniform mat4 view;
 uniform vec3 cameraPos;
-uniform vec2 cameraLook;
 uniform float zoom;
 
 %%%

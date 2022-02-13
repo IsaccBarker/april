@@ -1,6 +1,8 @@
 package org.april.Shader;
 
 import org.lwjgl.opengl.*;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 public class Program {
     private int program;
@@ -72,6 +74,20 @@ public class Program {
 
         GL41.glUniform4f(id, a, b, c, d);
     }
+
+	public void setUniform(String uniform, Vector3f v) {
+		int id = getUniformID(uniform);
+
+		GL41.glUniform3f(id, v.get(0), v.get(1), v.get(2));
+	}
+
+	public void setUniform(String uniform, Matrix4f m) {
+		int id = getUniformID(uniform);
+		float[] mat = new float[16];
+
+		mat = m.get(mat);
+		GL41.glUniformMatrix4fv(id, false, mat);
+	}
 
     public void bind() {
         GL41.glUseProgram(program);

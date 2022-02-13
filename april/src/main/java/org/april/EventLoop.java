@@ -3,7 +3,6 @@ package org.april;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
-import glm_.vec3.Vec3;
 
 import java.nio.*;
 
@@ -12,8 +11,6 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
-
-
 
 public class EventLoop {
     GLFWContext glfwContext;
@@ -39,6 +36,9 @@ public class EventLoop {
         renderer.clearBuffer();
         glfwContext.pollEvents();
 		getInput();
+		// glfwContext.getCamera().moveRotation(0.0f, 0.01f, 0.0f);
+		glfwContext.getCamera().updateViewMatrix();
+		System.out.println(glfwContext.getCamera().getViewMatrix().toString());
 
         renderer.renderToBuffer();
 
@@ -47,53 +47,51 @@ public class EventLoop {
 
 	private void getInput() {
 		getKeyboardInput();
-		getMouseInput();
 	}
 
 	private void getKeyboardInput() {
-		Vec3 pos = glfwContext.getCamera().getPosition();
+		/* Vec3 pos = glfwContext.getCamera().getPosition();
 		Vec3 up = glfwContext.getCamera().getUp();
 		Vec3 front = glfwContext.getCamera().getFront();
-		double speed = 0.05;
+		double speed = 0.05; */
+		Camera cam = glfwContext.getCamera();
 
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_W) == GLFW_PRESS) {
 			// glfwContext.getCamera().getPosition().addZ(-0.1);
-			pos = pos.plus(front.times(speed));
+			// pos = pos.plus(front.times(speed));
+			cam.movePosition(0, 0, -0.1f);
 		}
 		
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_A) == GLFW_PRESS) {
 			// glfwContext.getCamera().getPosition().addX(-0.1);
-			pos = pos.minus(front.cross(up).normalize().times(speed));
+			// pos = pos.minus(front.cross(up).normalize().times(speed));
+			cam.movePosition(-0.1f, 0, 0);
 		}
 		
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_S) == GLFW_PRESS) {
 			// glfwContext.getCamera().getPosition().addZ(0.1);
-			pos = pos.minus(front.times(speed));
+			// pos = pos.minus(front.times(speed));
+			cam.movePosition(0, 0, 0.1f);
 		}
 		
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_D) == GLFW_PRESS) {
 			// glfwContext.getCamera().getPosition().addX(0.1);
-			pos = pos.plus(front.cross(up).normalize().times(speed));
+			// pos = pos.plus(front.cross(up).normalize().times(speed));
+			cam.movePosition(0.1f, 0, 0);
 		}
 
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_C) == GLFW_PRESS) {
 			// glfwContext.getCamera().getPosition().addY(-0.1);
+			cam.movePosition(0, -0.1f, 0);
 		}
 		
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_SPACE) == GLFW_PRESS) {
 			// glfwContext.getCamera().getPosition().addY(0.1);
+			cam.movePosition(0, 0.1f, 0);
 		}
-	}
 
-	private void getMouseInput() {
-		try (MemoryStack stack = stackPush()) {
-			DoubleBuffer x = stack.mallocDouble(1);
-			DoubleBuffer y = stack.mallocDouble(1);
-
-			glfwGetCursorPos(glfwContext.getWindow(), x, y);
-
-			// glfwContext.getCamera().getLookAt().setX(x.get(0));
-			// glfwContext.getCamera().getLookAt().setY(y.get(0));
+		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_Q) == GLFW_PRESS) {
+			cam.moveRotation(0.0f, 0.5f, 0.0f);
 		}
 	}
 }

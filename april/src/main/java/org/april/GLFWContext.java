@@ -3,6 +3,8 @@ package org.april;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
+import org.joml.Vector2f;
+import org.joml.Vector2d;
 
 import java.nio.*;
 
@@ -39,6 +41,7 @@ public class GLFWContext {
 		initWindow();
 		setGLFWCurrentContext();
 		setFramebufferResizeCallback();
+		setCursorMoveCallback();
 		setScrollCallback();
 		setMonitorResolution();
 		configureInput();
@@ -124,6 +127,35 @@ public class GLFWContext {
 			if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
 				glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
 		});
+	}
+
+	private void setCursorMoveCallback() {
+		/* glfwSetCursorPosCallback(window, (window, xpos, ypos) -> {
+			Vector2d previous = camera.getPrevVec();
+			Vector2f display = camera.getDisplVec();
+
+			display.x = 0;
+			display.y = 0;
+
+			if (previous.x > 0 && previous.y > 0) {
+				double deltax = xpos - previous.x;
+				double deltay = ypos - previous.y;
+				boolean rotateX = deltax != 0;
+				boolean rotateY = deltay != 0;
+
+				if (rotateX) {
+					display.y = (float) deltax;
+				}
+				if (rotateY) {
+					display.x = (float) deltay;
+				}
+			}
+
+			previous.x = xpos;
+			previous.y = ypos;
+
+			camera.moveRotation(display.x / 25, display.y / 25, 0);
+		}); */
 	}
 
 	private void configureInput() {

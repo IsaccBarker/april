@@ -7,7 +7,7 @@ float torusSDF(vec3 p, vec2 t);
 
 float sdf(vec3 p) {
 	// float t = torusSDF(p + vec3(0.0, 0.0, 1.0), vec2(2, 0.25)); // sphereSDF(p + vec3(0.0, 0.0, 1.0), 1);
-	float t = cubeSDF(p + vec3(0.0, 0.0, -5.0), 1, 1, 1); // cos(time), tan(time), sin(time));
+	float t = cubeSDF(p + vec3(0.0, 0.0, 10), 1, 1, 1); // cos(time), tan(time), sin(time));
 	// float t = sphereSDF(p + vec3(0.0, 0.0, 0.0), 1);
 
 	return t;

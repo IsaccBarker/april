@@ -1,30 +1,90 @@
 package org.april;
 
-import glm_.vec3.Vec3;
-import glm_.vec4.Vec4;
-import glm_.mat4x4.Mat4;
-import glm_.Java.glm;
+import org.joml.Vector3f;
+import org.joml.Vector2f;
+import org.joml.Vector2d;
+import org.joml.Matrix4f;
 
 public class Camera {
-	private Vec3 position = new Vec3(0.0, 0.0, 3.0);
-	private Vec3 front = new Vec3(0.0, 0.0, 0.0);
-	private Vec3 up = new Vec3();
-	private Mat4 look = new Mat4();
+	private Vector3f position = new Vector3f();
+	private Vector3f rotation = new Vector3f();
+	private Vector3f up = new Vector3f(0.0f, 1.0f, 0.0f);
+	private Vector3f center = new Vector3f();
+	private Matrix4f viewMatrix = new Matrix4f();
+	private final Vector2d previousPos = new Vector2d();
+    private final Vector2d currentPos = new Vector2d();
+    private final Vector2f displVec = new Vector2f();
 	private double zoom = 0;
 
-	public Vec3 getPosition() {
-		return position;
+	public Vector3f getPosition() {
+        return position;
+    }
+
+    public void setPosition(float x, float y, float z) {
+        position.x = x;
+        position.y = y;
+        position.z = z;
+    }
+
+    public void movePosition(float offsetX, float offsetY, float offsetZ) {
+        if (offsetZ != 0 ) {
+            position.x += (float) Math.sin(Math.toRadians(rotation.y)) * -1.0f * offsetZ;
+            position.z += (float) Math.cos(Math.toRadians(rotation.y)) * offsetZ;
+        }
+
+        if (offsetX != 0) {
+            position.x += (float) Math.sin(Math.toRadians(rotation.y - 90)) * -1.0f * offsetX;
+            position.z += (float) Math.cos(Math.toRadians(rotation.y - 90)) * offsetX;
+        }
+
+		position.y += offsetY;
+    }
+
+    public Vector3f getRotation() {
+        return rotation;
+    }
+
+	public Matrix4f getViewMatrix() {
+		return viewMatrix;
 	}
 
-	public Vec3 getFront() {
-		look = glm.lookAt(position, position.plus(front), up);
+    public void setRotation(float x, float y, float z) {
+        rotation.x = x;
+        rotation.y = y;
+        rotation.z = z;
+    }
 
-		return front;
+    public void moveRotation(float offsetX, float offsetY, float offsetZ) {
+        rotation.x += offsetX;
+        rotation.y += offsetY;
+        rotation.z += offsetZ;
+    }
+
+	public void updateViewMatrix() {
+		viewMatrix.identity();
+
+		// First do the rotation so camera rotates over its position
+		viewMatrix.rotate((float)Math.toRadians(rotation.x), new Vector3f(1, 0, 0))
+			.rotate((float)Math.toRadians(rotation.y), new Vector3f(0, 1, 0));
+
+		// Then do the translation
+		viewMatrix.translate(-position.x, -position.y, -position.z);
+
+		/* viewMatrix.identity();
+		viewMatrix.lookAt(position, rotation, up); */
 	}
 
-	public Vec3 getUp() {
-		return up;
-	}
+	public Vector2d getPrevVec() {
+        return previousPos;
+    }
+
+	public Vector2d getCurrentVec() {
+        return currentPos;
+    }
+
+	public Vector2f getDisplVec() {
+        return displVec;
+    }
 
 	public double getZoom() {
 		return zoom;

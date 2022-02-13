@@ -6,24 +6,42 @@ uniform vec2 resolution;
 
 %%%
 
+mat4 viewMatrix(vec3 eye, vec3 center, vec3 up) {
+    // Based on gluLookAt man page
+    vec3 f = normalize(center - eye);
+    vec3 s = normalize(cross(f, up));
+    vec3 u = cross(s, f);
+    return mat4(
+        vec4(s, 0.0),
+        vec4(u, 0.0),
+        vec4(-f, 0.0),
+        vec4(0.0, 0.0, 0.0, 1)
+    );
+}
+
 /** Entry. */
 void main() {
-	vec2 uv = (gl_FragCoord.xy - 0.5 * resolution.xy) / resolution.y;
-	vec3 col = vec3(1);
-	vec3 ro = vec3(cameraPos.x, cameraPos.y, cameraPos.z - zoom); // ray origin that represents camera position
-	vec3 rd = normalize(vec3(uv, -1)); // ray direction
+	vec3 viewDir = rayDirection(45+zoom, resolution.xy, gl_FragCoord.xy);
+    vec3 worldDir = (view * vec4(viewDir, 0.0)).xyz;
+    float dist = castRay(cameraPos, worldDir);
 
-	rd *= rotateY(-cameraLook.x/100);
-	rd *= rotateX(-cameraLook.y/100);
-
-	float dist = castRay(ro, rd);
-
-	if (rayCollided(dist)) {
-		fragColor = vec4(vec3(0.30, 0.36, 0.60) - (rd.y * 0.7), 1.0); // vec4(0.0, 0.0, 0.0, 0.0);
+    if (rayCollided(dist)) {
+        // Didn't hit anything
+        fragColor = vec4(0.0, 0.0, 0.0, 0.0);
 
 		return;
-	}
+    }
 
-	fragColor = vec4(vec3(1.0 - dist * 0.075), 1.0);
+    // The closest point on the surface to the eyepoint along the view ray
+    vec3 p = cameraPos + dist * worldDir;
+
+    vec3 K_a = vec3(0.2, 0.2, 0.2);
+    vec3 K_d = vec3(0.7, 0.2, 0.2);
+    vec3 K_s = vec3(1.0, 1.0, 1.0);
+    float shininess = 100.0;
+
+    vec3 color = phongIllumination(K_a, K_d, K_s, shininess, p, cameraPos);
+
+    fragColor = vec4(color, 1.0);
 }
 

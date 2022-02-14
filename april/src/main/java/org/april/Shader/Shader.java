@@ -27,7 +27,7 @@ public class Shader {
 	private ArrayList<String> shaderHeaders = new ArrayList<String>();
 	private ArrayList<String> shaderSources = new ArrayList<String>();
     
-    public Shader(ShaderType shaderType) throws IOException {
+    public Shader(ShaderType shaderType) {
         this.shaderType = shaderType;
     }
 

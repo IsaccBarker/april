@@ -14,33 +14,31 @@ import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class EventLoop {
-    GLFWContext glfwContext;
-    Renderer renderer;
-	char lastKey = ' ';
+    private GLFWContext glfwContext;
+    private Renderer renderer;
+	private World world;
+	private char lastKey = ' ';
 
-    public EventLoop(GLFWContext glfwContext, Renderer renderer) {
+    public EventLoop(GLFWContext glfwContext, Renderer renderer, World world) {
         this.glfwContext = glfwContext;
         this.renderer = renderer;
+		this.world = world;
     }
 
     public void enter() {
-		// Set the clear color
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
-		// Run the rendering loop until the user has attempted to close
-		// the window or has pressed the ESCAPE key.
 		while (!glfwWindowShouldClose(glfwContext.getWindow())) {
-            frame();
+			world.tick();
+			frame();
         }
     }
     
     private void frame() {
-        renderer.clearBuffer();
+        GLUtil.clearBuffer();
 		glfwContext.getCamera().updateVectors();
         glfwContext.pollEvents();
 		getInput();
-		// glfwContext.getCamera().moveRotation(0.0f, 0.01f, 0.0f);
-		// System.out.println(glfwContext.getCamera().getViewMatrix().toString());
 
         renderer.renderToBuffer();
 
@@ -52,19 +50,12 @@ public class EventLoop {
 	}
 
 	private void getKeyboardInput() {
-		/* Vec3 pos = glfwContext.getCamera().getPosition();
-		Vec3 up = glfwContext.getCamera().getUp();
-		Vec3 front = glfwContext.getCamera().getFront();
-		double speed = 0.05; */
 		Camera cam = glfwContext.getCamera();
 		Vector3f pos = cam.getPosition();
 		double speed = cam.getSpeed();
 
-		// System.out.println(speed);
-
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_W) == GLFW_PRESS) {
 			pos.z -= speed;
-			// cam.offsetPosition(Camera.CameraMovement.FORWARD);
 		}
 		
 		if (glfwGetKey(glfwContext.getWindow(), GLFW_KEY_A) == GLFW_PRESS) {

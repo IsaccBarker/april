@@ -1,18 +1,4 @@
-out vec4 fragColor;
 // in vec4 vertexCoord;
-
-uniform float time;
-uniform vec2 resolution;
-
-struct DistanceMeta {
-	float dist;
-	vec3 color;
-};
-
-struct Ray {
-	int steps;
-	DistanceMeta meta;
-};
 
 %%%
 

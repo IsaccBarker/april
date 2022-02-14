@@ -42,7 +42,8 @@ public class Camera {
 		Vector3f speed = new Vector3f((float) this.speed, (float) this.speed, (float) this.speed);
 		
 		if (direction == CameraMovement.FORWARD) {
-			System.out.println(front + " * " + speed);
+			System.err.println("UNIMPLEMENTED");
+			System.exit(1);
 			// position.add(front);
 		}
 	}
@@ -145,8 +146,6 @@ public class Camera {
 		front.normalize();
 
 		this.front = front;
-
-		System.out.println(front);
 	}
 }
 

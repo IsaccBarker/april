@@ -29,8 +29,8 @@ public class EventLoop {
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
 		while (!glfwWindowShouldClose(glfwContext.getWindow())) {
-			world.tick();
 			frame();
+			world.tick();
         }
     }
     

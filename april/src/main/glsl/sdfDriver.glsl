@@ -1,6 +1,8 @@
+out float fragColor;
+
 %%%
 
 void main() {
-	fragColor = vec4(1.0);
+	fragColor = gl_FragCoord.x;
 }
 

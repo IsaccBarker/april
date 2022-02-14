@@ -60,37 +60,16 @@ public class GLUtil {
     	GLUtil.vbo = vbo.get(0);
 	}
 
-	public static IntBuffer createFBO(MemoryStack stack) {
-		IntBuffer fbo = stack.mallocInt(1);
-		GL41.glGenFramebuffers(fbo);
+	public static int createPBO(MemoryStack stack) {
+		IntBuffer pbo = stack.mallocInt(1);
+		GL41.glGenBuffers(pbo);
+		// GL41.glBufferData(GL41.GL_PIXEL_PACK_BUFFER, 500*1000*3, null, GL41.GL_STREAM_COPY);
 
-		return fbo;
+		return pbo.get(0);
 	}
 
-	// https://www.cs.uregina.ca/Links/class-info/315/WWW/Lab5/InternalFormats_OGL_Core_3_2.html
-	public static IntBuffer createRBO(MemoryStack stack, int color, int width, int height) {
-		IntBuffer rbo = stack.mallocInt(1);
-		
-		GL41.glGenRenderbuffers(rbo);
-		GL41.glBindRenderbuffer(GL41.GL_RENDERBUFFER, rbo.get(0));
-		GL41.glRenderbufferStorage(GL41.GL_RENDERBUFFER, color, width, height);
-
-		return rbo;
-	}
-
-	public static void destroyFBO(int fbo) {
-		GL41.glDeleteFramebuffers(fbo);
-	}
-
-	public static void bindFramebufferRenderbuffer(int fbo, int rbo) {
-		GL41.glBindFramebuffer(GL41.GL_FRAMEBUFFER, fbo);
-		GL41.glFramebufferRenderbuffer(GL41.GL_FRAMEBUFFER,
-				GL41.GL_DEPTH_STENCIL_ATTACHMENT,
-				GL41.GL_RENDERBUFFER, rbo);
-	}
-
-	public static void unbindFramebuffer() {
-		GL41.glBindFramebuffer(GL41.GL_FRAMEBUFFER, 0);
+	public static void bindPBO(int pbo) {
+		GL41.glBindBuffer(GL41.GL_PIXEL_PACK_BUFFER, pbo);
 	}
 
     public static void bindBufferData() {

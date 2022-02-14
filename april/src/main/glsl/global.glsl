@@ -1,5 +1,3 @@
-out vec4 fragColor;
-
 uniform float time;
 uniform vec2 resolution;
 

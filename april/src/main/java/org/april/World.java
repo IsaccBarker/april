@@ -29,9 +29,8 @@ public class World {
 	private ArrayList<Agent> agents;
 	private Random rand = new Random();
 	private Program distanceFunctions = new Program();
-	private int transferFBO;
-	private int transferRBO;
 	private final int numAgents;
+	private int pbo;
 
 	public World(int numAgents, GLFWContext glfwContext) {
 		agents = new ArrayList<Agent>(numAgents);
@@ -70,30 +69,19 @@ public class World {
 		}
 
 		try (MemoryStack stack = stackPush()) {
-			transferFBO = GLUtil.createFBO(stack).get(0);
-			transferRBO = GLUtil.createRBO(stack, GL41.GL_R16F, 27, numAgents).get(0);
+			pbo = GLUtil.createPBO(stack);
 		}
 	}
 
 	public void destroy() {
-		GLUtil.destroyFBO(transferFBO);
 	}
 
 	public void tick() {
 		distanceFunctions.bind();
-		// GLUtil.bindFramebufferRenderbuffer(transferFBO, transferRBO);
 		GLUtil.renderFacade();
+		GLUtil.bindPBO(pbo);
 
-		FloatBuffer pixels = BufferUtils.createFloatBuffer(27 * numAgents);
-		GL41.glReadPixels(10, 10, 27, numAgents, GL_RED, GL_FLOAT, pixels);
-
-		System.out.println(pixels.get(0));
-
-		// GLUtil.unbindFramebuffer();
-		/* distanceFunctions.bind();
-		GLUtil.bindFramebufferRenderbuffer(transferFBO, transferRBO);
-		GLUtil.clearBuffer();
-		GLUtil.renderFacade(); */
+		GL41.glReadPixels(0, 0, 500, 1000, GL41.GL_RGBA, GL41.GL_UNSIGNED_BYTE, 0);
 	}
 }
 

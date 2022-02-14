@@ -1,4 +1,5 @@
 // in vec4 vertexCoord;
+out vec4 fragColor;
 
 %%%
 
@@ -44,16 +45,18 @@ void main() {
 	glow = vec3(ray.steps/(MAX_MARCHING_STEPS/5));
     color = phongIllumination(K_a, K_d, K_s, shininess, p, cameraPos); */
 
-	glow = vec3(steps/(MAX_MARCHING_STEPS/5));
+	/* glow = vec3(steps/(MAX_MARCHING_STEPS/5));
 	color += glow;
 
 	// Ambient Occulusion
 	color *= (1.0-vec3(steps/MAX_MARCHING_STEPS));
 
-	fragColor = vec4(color, 1.0);
+	color = vec3(1.0 - float(steps)/float(MAX_MARCHING_STEPS));
 
-	/* p = cameraPos + dist * worldDir;
+	fragColor = vec4(color, 1.0); */
+
+	p = cameraPos + dist * worldDir;
 	color = vec3((estimateNormal(p) * vec3(0.5) + vec3(0.5)));
-    fragColor = vec4(color, 1.0); */
+    fragColor = vec4(color, 1.0);
 }
 

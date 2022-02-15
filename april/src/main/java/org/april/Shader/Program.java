@@ -1,4 +1,4 @@
-package org.april.Shader;
+package org.april.shader;
 
 import org.lwjgl.opengl.*;
 import org.joml.Matrix4f;

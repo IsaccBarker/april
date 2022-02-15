@@ -27,6 +27,14 @@ switch (OperatingSystem.current()) {
 		break
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs 'src'
+        }
+    }
+ }
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -44,6 +52,11 @@ dependencies {
 
     // LWJGL
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
+
+	// Java bytecode manipulation (from 2014! Yay!)
+	implementation 'org.ow2.asm:asm:9.2'
+	implementation 'org.ow2.asm:asm-tree:9.2'
+	implementation 'org.ow2.asm:asm-util:9.2'
 
 	implementation "org.lwjgl:lwjgl"
 	implementation "org.lwjgl:lwjgl-assimp"

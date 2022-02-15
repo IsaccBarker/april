@@ -12,11 +12,14 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+import org.april.shader.*;
+
 public class GLUtil {
 	public static int ebo;
     public static int vao;
     public static int vbo;
     public GLFWContext glfwContext;
+	static Shader vertex;
 
 	public static final float vertices[] = {
         1f,  1f, 0.0f,
@@ -29,6 +32,22 @@ public class GLUtil {
         0, 1, 3,
         1, 2, 3,
     };
+
+	public static void init() {
+		try {
+            vertex = new Shader(ShaderType.VERTEX);
+			vertex.attachSource("./src/main/glsl/vertex.glsl");
+            vertex.compile();
+        } catch (Exception e) {
+            System.err.println("Failed to perform shader steps prior to program (vertex): " + e.getMessage());
+            System.exit(1);
+        }
+	}
+
+	public static Shader getVertex() {
+		return vertex;
+	}
+
 
 	public static void clearBuffer() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

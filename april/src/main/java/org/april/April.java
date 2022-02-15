@@ -1,18 +1,25 @@
 package org.april;
 
+import java.awt.Graphics;
+import java.awt.event.*;
+import java.awt.image.*;
+import javax.swing.*;
+
+import org.april.initial.*;
+
 public class April {
 	public static void main(String[] args) {
 		GLFWContext glfwContext = new GLFWContext();
-		SharedGL.init();
+
+		GLUtil.init();
+
 		Renderer renderer = new Renderer(glfwContext);
-		World world = new World(100, glfwContext);
-		EventLoop eventLoop = new EventLoop(glfwContext, renderer, world);
+		EventLoop eventLoop = new EventLoop(glfwContext, renderer);
 
 		eventLoop.enter();
 
 		// Goodbyte!
 		//     Originally a typo, but it makes for a good pun :D
-		world.destroy();
 		glfwContext.destroy();
 	}
 }

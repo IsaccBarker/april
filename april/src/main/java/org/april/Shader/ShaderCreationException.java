@@ -1,4 +1,4 @@
-package org.april.Shader;
+package org.april.shader;
 
 public class ShaderCreationException extends Exception {
     public ShaderCreationException(String str)  {  

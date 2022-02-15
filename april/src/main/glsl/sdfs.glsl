@@ -20,11 +20,11 @@ float sdBox( vec3 p, vec3 b )
 
 DistanceMeta mandelSDF(vec3 p) {
 	vec3 z = p;
-	vec3 color;
+	vec3 color = vec3(1, 0, 0);
     float dr = 1.0;
     float r = 0.0;
-	float power = 10 + (sin(time * 0.01) * 10); // (7.+ sin(time/3.) * 5.);
-	float breakout = 5.0; 
+	float power = sin(time)+5; // (7.+ sin(time/3.) * 5.);
+	float breakout = 5; 
 
     for (int i = 0; i < 15; i++) {
         r = length(z);
@@ -79,21 +79,9 @@ DistanceMeta sdf(vec3 p) {
 	// float t = torusSDF(p + vec3(0.0, 0, 25), vec2(5-sin(time)*5, 1)); // cos(time), tan(time), sin(time));
 	// t = smin(capsuleSDF(p + vec3(0.0, 0, 25), vec3(0.0, (sin(time)*5), 0.0), vec3(0.0, -(sin(time)*5), 0.0), 1), t, sin(time)*5);
 	// DistanceMeta t = mandelSDF(p + vec3(0, 0, 1));
-	// DistanceMeta t = mengersponge_de(6, p + vec3(0.0, 0.0, 5));
-	
-	float dist = 0;
-	vec3 color = vec3(0);
-	DistanceMeta tmp;
+	DistanceMeta t = mengersponge_de(6, p + vec3(0.0, 0.0, 5));
 
-	tmp = DistanceMeta(sphereSDF(p + vec3(0, -sin(time)*3, 5), 1), vec3(0, 1, 0));
-	dist = tmp.dist;
-	color = tmp.color;
-
-	tmp = DistanceMeta(sphereSDF(p + vec3(2, -sin(time)*3, 5), 1), vec3(1, 0, 0));
-	dist = smin(dist, tmp.dist, 1);
-	color = mix(color, tmp.color, 1);
-
-	return DistanceMeta(dist, color);
+	return t;
 }
 
 float sphereSDF(vec3 p, float r) {

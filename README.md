@@ -1,16 +1,6 @@
-<p align="center">
-    <img style="width: 50%; height: 50%" src="https://raw.githubusercontent.com/IsaccBarker/april/main/assets/cropped.png">
-</p>
+<h1 align="center"><code>April</code></h1>
 
 <p align="center">Ray marching in LWJGL (GLFW and OpenGL). Welcome to the barebones readme :/</p>
-
-## Running
-You can run `april` using the typical gradle run pattern:
-```bash
-./gradlew run
-```
-
-Building to a JAR file will be supported near the end of the project period.
 
 ## References
 

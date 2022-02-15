@@ -21,8 +21,8 @@ import static org.lwjgl.system.MemoryUtil.*;
  *     https://learnopengl.com/Getting-started/Creating-a-window
  *     https://learnopengl.com/Getting-started/Hello-Window */
 public class GLFWContext {
-	private static final int WINDOW_WIDTH = 500;
-	private static final int WINDOW_HEIGHT = 500;
+	private static final int WINDOW_WIDTH = 1000;
+	private static final int WINDOW_HEIGHT = 1000;
 
 	private GLFWVidMode monitorResolution;
 	private Camera camera = new Camera();

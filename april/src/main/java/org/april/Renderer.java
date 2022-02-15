@@ -17,7 +17,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
-import org.april.Shader.*;
+import org.april.shader.*;
 
 public class Renderer {
     // These next two blocks may seem like a bad idea, but
@@ -43,7 +43,7 @@ public class Renderer {
     }
 
     public void renderToBuffer() { 
-        double timeValue = Math.abs(Math.sin(glfwGetTime()));
+        double timeValue = glfwGetTime();
 
 		// System.out.println(glfwContext.getCamera().getViewMatrix().toString());
 
@@ -86,7 +86,7 @@ public class Renderer {
         }
 
         try {
-            program.attachCompiledShader(SharedGL.getVertex());
+            program.attachCompiledShader(GLUtil.getVertex());
             program.attachCompiledShader(fragment);
 
             program.link();

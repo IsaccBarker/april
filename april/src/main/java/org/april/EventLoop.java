@@ -16,13 +16,11 @@ import static org.lwjgl.system.MemoryUtil.*;
 public class EventLoop {
     private GLFWContext glfwContext;
     private Renderer renderer;
-	private World world;
 	private char lastKey = ' ';
 
-    public EventLoop(GLFWContext glfwContext, Renderer renderer, World world) {
+    public EventLoop(GLFWContext glfwContext, Renderer renderer) {
         this.glfwContext = glfwContext;
         this.renderer = renderer;
-		this.world = world;
     }
 
     public void enter() {
@@ -30,7 +28,6 @@ public class EventLoop {
 
 		while (!glfwWindowShouldClose(glfwContext.getWindow())) {
 			frame();
-			world.tick();
         }
     }
     
